@@ -434,6 +434,7 @@ img {
 
 .admin-nav {
   display: flex;
+  flex-wrap: wrap;
   gap: 12px;
   margin: 20px 0 0;
 }
@@ -1399,6 +1400,12 @@ section.home-section h2 {
   margin-top: 8px;
 }
 
+.table-scroll {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+}
+
 table.reservations-table {
   width: 100%;
   border-collapse: collapse;
@@ -1409,6 +1416,7 @@ table.reservations-table td {
   text-align: left;
   padding: 12px 14px;
   border-bottom: 1px solid var(--border-light);
+  white-space: nowrap;
 }
 table.reservations-table th {
   color: var(--text-muted);
@@ -1439,6 +1447,9 @@ table.reservations-table th {
 }
 
 @media (max-width: 640px) {
+  .container {
+    padding: 0 16px;
+  }
   .search-bar {
     display: none;
   }
@@ -1461,5 +1472,75 @@ table.reservations-table th {
   .listing-card img {
     width: 100%;
     height: 160px;
+  }
+
+  /* Top header: the nav links + search bar don't fit on narrow
+     screens, so drop them and tighten up spacing instead of letting
+     the header overflow horizontally. */
+  .site-header .header-container {
+    padding: 0 16px;
+  }
+  .main-nav {
+    display: none;
+  }
+  .brand {
+    font-size: 18px;
+    gap: 6px;
+  }
+  .brand svg {
+    width: 24px;
+    height: 24px;
+  }
+  .header-actions {
+    gap: 8px;
+  }
+  .header-actions .globe {
+    display: none;
+  }
+  .site-header .header-actions > span {
+    display: none;
+  }
+  .admin-header .header-actions > span {
+    max-width: 110px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .hero {
+    height: 260px;
+    margin: 16px auto;
+  }
+  .hero-overlay {
+    left: 20px;
+    bottom: 20px;
+  }
+  .hero-overlay h1 {
+    font-size: 20px;
+    margin: 0 0 8px;
+  }
+
+  .admin-list-card {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .admin-list-card .admin-actions {
+    width: 100%;
+    flex-direction: row;
+  }
+
+  .ratings-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .form-row {
+    flex-direction: column;
+    gap: 0;
+  }
+}
+
+@media (max-width: 480px) {
+  .footer-columns {
+    grid-template-columns: 1fr;
   }
 }

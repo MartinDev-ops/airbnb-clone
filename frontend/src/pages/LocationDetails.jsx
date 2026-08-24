@@ -44,21 +44,21 @@ function getHostProfile(listing) {
 }
 
 const houseRules = [
-  { icon: "🕓", text: "Check-in: After 4:00 PM" },
-  { icon: "🕙", text: "Check-out: 10:00 AM" },
-  { icon: "🔐", text: "Self check-in with lock-box" },
-  { icon: "👶", text: "Not suitable for infants (under 2 years)" },
-  { icon: "🚭", text: "No smoking" },
-  { icon: "🐾", text: "No pets" },
-  { icon: "🎉", text: "No parties or events" },
+  { icon: "\u{1F553}", text: "Check-in: After 4:00 PM" },
+  { icon: "\u{1F559}", text: "Check-out: 10:00 AM" },
+  { icon: "\u{1F510}", text: "Self check-in with lock-box" },
+  { icon: "\u{1F476}", text: "Not suitable for infants (under 2 years)" },
+  { icon: "\u{1F6AD}", text: "No smoking" },
+  { icon: "\u{1F43E}", text: "No pets" },
+  { icon: "\u{1F389}", text: "No parties or events" },
 ];
 
 const healthAndSafety = [
-  { icon: "✨", text: "Committed to Airbnb's enhanced cleaning process.", link: true },
-  { icon: "😷", text: "Airbnb's social-distancing and other COVID-19-related guidelines apply" },
-  { icon: "🚨", text: "Carbon monoxide alarm" },
-  { icon: "🔥", text: "Smoke alarm" },
-  { icon: "💳", text: "Security Deposit - if you damage the home, you may be charged up to $566", link: true },
+  { icon: "\u{2728}", text: "Committed to Airbnb's enhanced cleaning process.", link: true },
+  { icon: "\u{1F637}", text: "Airbnb's social-distancing and other COVID-19-related guidelines apply" },
+  { icon: "\u{1F6A8}", text: "Carbon monoxide alarm" },
+  { icon: "\u{1F525}", text: "Smoke alarm" },
+  { icon: "\u{1F4B3}", text: "Security Deposit - if you damage the home, you may be charged up to $566", link: true },
 ];
 
 function nightsBetween(checkIn, checkOut) {
@@ -73,7 +73,7 @@ const featureCopy = {
     title: (type) => type,
     body: "You'll have the apartment for yourself",
   },
-  cleaning: { icon: "✨", title: "Enhanced Cleaning:", body: "This Host committed to Airbnb's 5-step enhanced cleaning process." },
+  cleaning: { icon: "\u{2728}", title: "Enhanced Cleaning:", body: "This Host committed to Airbnb's 5-step enhanced cleaning process." },
   checkIn: { icon: "\u{1F3E2}", title: "Self Check-in:", body: "Check yourself in with the keypad" },
   cancellation: { icon: "\u{1F4C5}", title: "Free cancellation", body: "Cancel before check-in for a partial refund." },
 };

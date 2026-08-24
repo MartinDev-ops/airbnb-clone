@@ -14,7 +14,7 @@ export default function ListingCard({ listing }) {
       <img src={listing.images?.[0]} alt={listing.title} />
       <div className="listing-body">
         <span className="listing-type">{listing.type}</span>
-        <h3 className="listing-title">{listing.location}</h3>
+        <h3 className="listing-title">{listing.title}</h3>
         <p className="listing-meta">
           {listing.guests} guests &middot; {listing.type} &middot; {listing.bedrooms} bedrooms &middot;{" "}
           {listing.bathrooms} bathrooms

@@ -51,36 +51,38 @@ export default function ViewReservations() {
       )}
 
       {status === "ready" && reservations.length > 0 && (
-        <table className="reservations-table">
-          <thead>
-            <tr>
-              <th>Listing</th>
-              {isHost && <th>Guest</th>}
-              <th>Check-in</th>
-              <th>Check-out</th>
-              <th>Guests</th>
-              <th>Total</th>
-              <th></th>
-            </tr>
-          </thead>
-          <tbody>
-            {reservations.map((r) => (
-              <tr key={r._id}>
-                <td>{r.accommodation?.title || "Listing removed"}</td>
-                {isHost && <td>{r.user?.username}</td>}
-                <td>{new Date(r.checkIn).toLocaleDateString()}</td>
-                <td>{new Date(r.checkOut).toLocaleDateString()}</td>
-                <td>{r.guests}</td>
-                <td>${r.priceBreakdown?.total}</td>
-                <td>
-                  <button className="btn btn-danger" onClick={() => handleCancel(r._id)}>
-                    Cancel
-                  </button>
-                </td>
+        <div className="table-scroll">
+          <table className="reservations-table">
+            <thead>
+              <tr>
+                <th>Listing</th>
+                {isHost && <th>Guest</th>}
+                <th>Check-in</th>
+                <th>Check-out</th>
+                <th>Guests</th>
+                <th>Total</th>
+                <th></th>
               </tr>
-            ))}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {reservations.map((r) => (
+                <tr key={r._id}>
+                  <td>{r.accommodation?.title || "Listing removed"}</td>
+                  {isHost && <td>{r.user?.username}</td>}
+                  <td>{new Date(r.checkIn).toLocaleDateString()}</td>
+                  <td>{new Date(r.checkOut).toLocaleDateString()}</td>
+                  <td>{r.guests}</td>
+                  <td>${r.priceBreakdown?.total}</td>
+                  <td>
+                    <button className="btn btn-danger" onClick={() => handleCancel(r._id)}>
+                      Cancel
+                    </button>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
       )}
     </div>
   );
