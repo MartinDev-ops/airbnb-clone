@@ -1183,6 +1183,39 @@ section.home-section h2 {
   font-weight: 700;
 }
 
+/* ---------- Alert modal ---------- */
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 200;
+  padding: 20px;
+}
+
+.modal-card {
+  background: #fff;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow-hover);
+  padding: 24px 28px;
+  max-width: 360px;
+  width: 100%;
+  text-align: center;
+}
+
+.modal-message {
+  font-size: 14px;
+  color: var(--text);
+  line-height: 1.5;
+  margin: 0 0 18px;
+}
+
+.modal-card .btn {
+  min-width: 100px;
+}
+
 /* ---------- Auth / forms ---------- */
 .auth-page {
   max-width: 400px;

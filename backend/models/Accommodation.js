@@ -32,6 +32,9 @@ const accommodationSchema = new mongoose.Schema(
         message: "A listing can have at most 10 images.",
       },
     },
+    // Photo for the "Where you'll sleep" section. Empty string means the
+    // host hasn't uploaded one, in which case the frontend shows nothing.
+    bedroomImage: { type: String, default: "" },
     guests: { type: Number, required: true, min: 1 },
     bedrooms: { type: Number, required: true, min: 0 },
     bathrooms: { type: Number, required: true, min: 0 },
@@ -55,5 +58,10 @@ const accommodationSchema = new mongoose.Schema(
   },
   { timestamps: true }
 );
+
+// getAccommodations sorts by createdAt; without this index, Mongo has to
+// load the whole collection into memory to sort it, which blows past its
+// 32MB in-memory sort limit once listings carry base64-encoded photos.
+accommodationSchema.index({ createdAt: -1 });
 
 module.exports = mongoose.model("Accommodation", accommodationSchema);

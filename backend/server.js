@@ -21,7 +21,13 @@ app.use(
     origin: allowedOrigins.includes("*") ? true : allowedOrigins,
   })
 );
-app.use(express.json());
+// Generous cap so base64-encoded image uploads (see ListingForm) aren't
+// rejected as "request entity too large" - but NOT Infinity: a listing
+// document lives in MongoDB, which hard-caps a single document at 16MB,
+// so an uncapped upload can silently produce a document right at that
+// ceiling (~15.5MB was observed in practice) that then makes every list
+// query slow, since it has to be transferred on every fetch.
+app.use(express.json({ limit: "12mb" }));
 app.use(morgan(process.env.NODE_ENV === "production" ? "combined" : "dev"));
 
 // --- Health check (useful for Heroku / uptime checks) ---

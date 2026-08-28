@@ -16,23 +16,6 @@ const ratingLabels = {
   value: "Value",
 };
 
-// Curated bedroom photo per city, matched to the listing's actual vibe:
-// apartments/lofts get a window/glass city view, villas/homes get a plain
-// house-style bedroom (no dramatic glass walls).
-const bedroomPhotosByLocation = [
-  { match: /new york/i, src: "https://images.unsplash.com/photo-1782061817552-d13a799de52f?w=800" },
-  { match: /paris/i, src: "https://images.unsplash.com/photo-1616594039964-ae9021a400a0?w=800" },
-  { match: /tokyo/i, src: "https://images.unsplash.com/photo-1783014619915-9a296b48e107?w=800" },
-  { match: /cape town/i, src: "https://images.unsplash.com/photo-1560185893-a55cbc8c57e8?w=800" },
-  { match: /phuket|thailand/i, src: "https://images.unsplash.com/photo-1611892440504-42a792e24d32?w=800" },
-];
-const DEFAULT_BEDROOM_PHOTO = "https://images.unsplash.com/photo-1600494448655-ae58f58bb945?w=800";
-
-function getBedroomPhoto(listing) {
-  const match = bedroomPhotosByLocation.find((entry) => entry.match.test(listing.location || ""));
-  return match ? match.src : DEFAULT_BEDROOM_PHOTO;
-}
-
 const HOST_JOIN_DATES = ["June 2024", "March 2023", "September 2023", "January 2024", "May 2022"];
 
 function getHostProfile(listing) {
@@ -224,14 +207,18 @@ export default function LocationDetails() {
           <p className="details-description">{listing.description}</p>
 
           <div className="details-static-sections">
-            <h3>Where you'll sleep</h3>
-            <div className="sleep-card">
-              <img src={getBedroomPhoto(listing)} alt="Bedroom" />
-              <div className="sleep-caption">
-                <strong>Spacious bedroom with comfortable bed.</strong>
-                <span>Total bedrooms: {listing.bedrooms}</span>
-              </div>
-            </div>
+            {listing.bedroomImage && (
+              <>
+                <h3>Where you'll sleep</h3>
+                <div className="sleep-card">
+                  <img src={listing.bedroomImage} alt="Bedroom" />
+                  <div className="sleep-caption">
+                    <strong>Spacious bedroom with comfortable bed.</strong>
+                    <span>Total bedrooms: {listing.bedrooms}</span>
+                  </div>
+                </div>
+              </>
+            )}
 
             <h3>What this place offers</h3>
             {listing.amenities?.length ? (

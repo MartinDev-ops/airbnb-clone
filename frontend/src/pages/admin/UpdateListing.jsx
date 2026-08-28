@@ -55,6 +55,7 @@ export default function UpdateListing() {
             }}
             initialAmenities={listing.amenities || []}
             initialImages={listing.images || []}
+            initialBedroomImage={listing.bedroomImage || ""}
             onSubmit={handleUpdate}
             submitLabel="Save Changes"
             onCancel={() => navigate("/admin/listings")}

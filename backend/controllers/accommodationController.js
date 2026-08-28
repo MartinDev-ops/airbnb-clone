@@ -1,5 +1,27 @@
 const Accommodation = require("../models/Accommodation");
 
+const RATING_CATEGORIES = ["cleanliness", "communication", "checkIn", "accuracy", "location", "value"];
+
+// Random-ish rating in a realistic 3.8-5.0 band, rounded to 1 decimal.
+function randomRatingValue() {
+  return Math.round((3.8 + Math.random() * 1.2) * 10) / 10;
+}
+
+// Fills in any category the caller didn't explicitly send, so listings
+// created without a ratings breakdown don't all show the same flat 4.5s.
+function buildSpecificRatings(input = {}) {
+  const ratings = {};
+  RATING_CATEGORIES.forEach((key) => {
+    ratings[key] = input[key] != null ? input[key] : randomRatingValue();
+  });
+  return ratings;
+}
+
+function averageRating(ratings) {
+  const values = Object.values(ratings);
+  return Math.round((values.reduce((sum, v) => sum + v, 0) / values.length) * 10) / 10;
+}
+
 /**
  * GET /api/accommodations
  * Supports ?location=New%20York for the search/locations page, and
@@ -15,7 +37,15 @@ async function getAccommodations(req, res) {
       filter.host = req.query.host;
     }
 
-    const accommodations = await Accommodation.find(filter)
+    // List/search views (ListingCard, admin "My Listings") only ever show
+    // the first photo and never the description/bedroom photo, so those
+    // are excluded here - a listing with several full-size images
+    // shouldn't make every search response balloon in size.
+    const accommodations = await Accommodation.find(filter, {
+      description: 0,
+      bedroomImage: 0,
+      images: { $slice: 1 },
+    })
       .populate("host", "username")
       .sort({ createdAt: -1 });
 
@@ -44,8 +74,11 @@ async function getAccommodationById(req, res) {
 /** POST /api/accommodations (host only) */
 async function createAccommodation(req, res) {
   try {
+    const specificRatings = buildSpecificRatings(req.body.specificRatings);
     const accommodation = await Accommodation.create({
       ...req.body,
+      specificRatings,
+      rating: req.body.rating ?? averageRating(specificRatings),
       host: req.user.id,
     });
     return res.status(201).json(accommodation);
