@@ -1252,6 +1252,32 @@ section.home-section h2 {
 .form-field textarea:focus {
   border-color: var(--brand);
 }
+.password-input {
+  position: relative;
+}
+.password-input input {
+  padding-right: 40px;
+}
+.password-toggle {
+  position: absolute;
+  top: 50%;
+  right: 6px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  padding: 0;
+  border: none;
+  background: none;
+  color: var(--muted, #717171);
+  cursor: pointer;
+  border-radius: 6px;
+}
+.password-toggle:hover {
+  color: var(--text);
+}
 .auth-role-options {
   display: flex;
   gap: 20px;
