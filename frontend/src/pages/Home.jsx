@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import GiftCardsArt from "../components/GiftCardsArt";
 
 const inspirationCards = [
@@ -158,14 +157,10 @@ export default function Home() {
           </div>
           <div className="destination-grid">
             {destinationTabs[activeTab].map((d) => (
-              <Link
-                key={d.name}
-                to={`/locations?location=${encodeURIComponent(d.place.split(",")[0])}`}
-                className="destination"
-              >
+              <div key={d.name} className="destination">
                 <strong>{d.name}</strong>
                 <span>{d.place}</span>
-              </Link>
+              </div>
             ))}
           </div>
         </section>

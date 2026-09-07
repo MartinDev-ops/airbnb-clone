@@ -2,6 +2,15 @@ import { useState } from "react";
 import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useAuth } from "../../context/AuthContext";
 
+const PASSWORD_MIN_LENGTH = 8;
+const PASSWORD_MAX_LENGTH = 128;
+
+const PASSWORD_REQUIREMENTS = [
+  { id: "number", label: "At least 1 number", test: (pw) => /[0-9]/.test(pw) },
+  { id: "upper", label: "At least 1 upper case letter", test: (pw) => /[A-Z]/.test(pw) },
+  { id: "special", label: "At least 1 special character", test: (pw) => /[^A-Za-z0-9]/.test(pw) },
+];
+
 /**
  * Signup page. Lets a new visitor create an account as either a guest
  * ("user") or a host, then logs them straight in (register already
@@ -22,6 +31,21 @@ export default function Signup() {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
 
+  const passwordTooLong = password.length > PASSWORD_MAX_LENGTH;
+  const lengthCheck = {
+    id: "length",
+    label: passwordTooLong
+      ? `You've exceeded the ${PASSWORD_MAX_LENGTH} character limit`
+      : `Password must be at least ${PASSWORD_MIN_LENGTH} characters long`,
+    met: password.length >= PASSWORD_MIN_LENGTH && !passwordTooLong,
+    exceeded: passwordTooLong,
+  };
+  const passwordChecks = [
+    lengthCheck,
+    ...PASSWORD_REQUIREMENTS.map((req) => ({ ...req, met: req.test(password) })),
+  ];
+  const passwordMeetsRequirements = passwordChecks.every((c) => c.met);
+
   async function handleSubmit(e) {
     e.preventDefault();
     setError("");
@@ -30,8 +54,8 @@ export default function Signup() {
       setError("Please enter a username and a password.");
       return;
     }
-    if (password.length < 6) {
-      setError("Password must be at least 6 characters.");
+    if (!passwordMeetsRequirements) {
+      setError("Password does not meet all the requirements below.");
       return;
     }
     if (password !== confirmPassword) {
@@ -100,6 +124,25 @@ export default function Signup() {
               )}
             </button>
           </div>
+          <ul className="password-requirements">
+            {passwordChecks.map((req) => (
+              <li key={req.id} className={req.met ? "met" : req.exceeded ? "exceeded" : ""}>
+                <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                  {req.met ? (
+                    <polyline points="20 6 9 17 4 12" />
+                  ) : req.exceeded ? (
+                    <>
+                      <line x1="18" y1="6" x2="6" y2="18" />
+                      <line x1="6" y1="6" x2="18" y2="18" />
+                    </>
+                  ) : (
+                    <circle cx="12" cy="12" r="9" />
+                  )}
+                </svg>
+                {req.label}
+              </li>
+            ))}
+          </ul>
         </div>
 
         <div className="form-field">
